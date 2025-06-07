@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yogures Artesanales Griegos</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --color-base: #fff3e0;
+      --color-primario: #6d4c41;
+      --color-secundario: #a1887f;
+      --color-texto: #4e342e;
+      --color-header-bg: #6d4c41;
+      --color-header-text: #fff;
+      --color-footer-bg: #000;
+      --color-footer-text: #fff;
+    }
+
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, var(--color-base), #fce4ec);
+      color: var(--color-texto);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav.navbar {
+      background-color: var(--color-header-bg);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+    }
+
+    nav.navbar .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--color-header-text);
+    }
+
+    nav.navbar .nav-link {
+      color: var(--color-header-text);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav.navbar .nav-link:hover,
+    nav.navbar .nav-link:focus {
+      color: var(--color-secundario);
+      text-decoration: underline;
+    }
+
+    header {
+      background: linear-gradient(90deg, #000000, var(--color-header-bg));
+      color: var(--color-header-text);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+      position: sticky;
+      top: 56px; /* altura navbar bootstrap */
+      z-index: 90;
+    }
+
+    header img {
+      height: 60px;
+      filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.4));
+      border-radius: 8px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      animation: fadeInLeft 1.5s ease-in-out;
+      flex: 1;
+    }
+
+    .slideshow-container {
+      position: relative;
+      max-width: 100%;
+      height: 400px;
+      overflow: hidden;
+      margin-top: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .slides {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+      border-radius: 12px;
+    }
+
+    .slides.active {
+      opacity: 1;
+      position: relative;
+    }
+
+    .presentation {
+      padding: 3rem 1.5rem;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(6px);
+      border-radius: 12px;
+      margin: 3rem auto;
+      max-width: 900px;
+      box-shadow: 0 4px 20px rgba(109, 76, 65, 0.2);
+    }
+
+    .presentation h2 {
+      color: var(--color-primario);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .presentation p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: 0 auto;
+      color: var(--color-texto);
+    }
+
+    section#productos {
+      padding-bottom: 4rem;
+    }
+
+    section#productos h2 {
+      color: var(--color-primario);
+      margin-bottom: 2rem;
+      font-weight: 700;
+    }
+
+    .card {
+      border-radius: 12px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card:hover,
+    .card:focus-within {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(109, 76, 65, 0.4);
+      outline: none;
+    }
+
+    .card-img-top {
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-img-top {
+      transform: scale(1.05);
+    }
+
+    section#sobre {
+      padding: 3rem 1rem 6rem;
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(6px);
+      border-radius: 12px;
+      max-width: 900px;
+      margin: 0 auto 4rem;
+      box-shadow: 0 4px 20px rgba(109, 76, 65, 0.15);
+    }
+
+    section#sobre h2 {
+      color: var(--color-primario);
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+
+    section#sobre p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--color-texto);
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    footer {
+      background-color: var(--color-footer-bg);
+      color: var(--color-footer-text);
+      text-align: center;
+      padding: 1.5rem 0;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+      font-size: 1rem;
+      user-select: none;
+    }
+
+    footer p {
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+    }
+
+    footer a {
+      margin: 0 12px;
+      text-decoration: none;
+      font-size: 1.8rem;
+      transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease;
+      display: inline-block;
+      vertical-align: middle;
+      color: var(--color-footer-text);
+    }
+
+    footer a:focus,
+    footer a:hover {
+      transform: scale(1.3) rotate(5deg);
+      filter: brightness(1.2) drop-shadow(0 0 5px currentColor);
+      outline: none;
+    }
+
+    footer a::after {
+      content: '';
+      display: block;
+      width: 0%;
+      height: 2px;
+      margin-top: 4px;
+      background-color: currentColor;
+      transition: width 0.3s ease;
+      border-radius: 1px;
+    }
+
+    footer a:hover::after,
+    footer a:focus::after {
+      width: 100%;
+    }
+
+    .bi-whatsapp {
+      color: #25d366;
+    }
+
+    .bi-instagram {
+      color: #e1306c;
+    }
+
+    .bi-facebook {
+      color: #3b5998;
+    }
+
+    .bi-twitter-x {
+      color: #1da1f2;
+    }
+
+    /* BOTÓN FLOTANTE WHATSAPP */
+    .whatsapp-float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 30px;
+      right: 30px;
+      background-color: #25d366;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 32px;
+      box-shadow: 0 4px 10px rgba(37, 211, 102, 0.6);
+      z-index: 1050;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .whatsapp-float:hover,
+    .whatsapp-float:focus {
+      background-color: #1ebe57;
+      box-shadow: 0 6px 15px rgba(30, 190, 87, 0.9);
+      transform: scale(1.1);
+      outline: none;
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" aria-label="Menú principal">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Yogures Griegos</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Mostrar menú de navegación"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#productos">Productos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#sobre">Nosotros</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header role="banner" aria-label="Encabezado principal con logo y título">
+    <img src="img/logo.png" alt="Logo de Yogures Artesanales Griegos" />
+    <h1>Yogures artesanales griegos, frescura y sabor en cada cucharada</h1>
+  </header>
+
+  <main>
+    <section class="slideshow-container" aria-label="Galería de imágenes de yogures">
+      <img src="img/slideshow01.jpg" alt="Yogur griego natural" class="slides active" />
+      <img src="img/slideshow02.jpg" alt="Yogur griego con frutas frescas" class="slides" />
+      <img src="img/slideshow03.jpg" alt="Yogur griego con miel y nueces" class="slides" />
+    </section>
+
+    <section class="presentation" aria-labelledby="presentacion-titulo">
+      <h2 id="presentacion-titulo">Lo mejor de la tradición griega en tu mesa</h2>
+      <p>
+        Nuestros yogures artesanales griegos están hechos con ingredientes naturales y técnicas
+        tradicionales que garantizan un sabor auténtico y una textura cremosa. Descubre la
+        experiencia de disfrutar un producto saludable, rico en proteínas y probióticos, ideal para
+        toda la familia.
+      </p>
+    </section>
+
+    <section id="productos" class="container my-5" aria-labelledby="productos-titulo">
+      <h2 id="productos-titulo" class="text-center mb-4">Nuestros Productos</h2>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        <article class="col">
+          <div class="card h-100" tabindex="0" aria-label="Yogur natural artesanal">
+            <img src="img/greek01.jpg" class="card-img-top" alt="Yogur natural artesanal" />
+            <div class="card-body">
+              <h3 class="card-title">Yogur Natural</h3>
+              <p class="card-text">
+                Yogur griego natural, sin azúcares añadidos, ideal para acompañar frutas o usar en
+                recetas.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="col">
+          <div class="card h-100" tabindex="0" aria-label="Yogur griego con miel y nueces">
+            <img src="img/greek02.jpg" class="card-img-top" alt="Yogur griego con miel y nueces" />
+            <div class="card-body">
+              <h3 class="card-title">Yogur con miel y nueces</h3>
+              <p class="card-text">
+                Una mezcla dulce y crujiente para un desayuno nutritivo y delicioso.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="col">
+          <div class="card h-100" tabindex="0" aria-label="Yogur griego con frutas frescas">
+            <img src="img/greek03.jpg" class="card-img-top" alt="Yogur griego con frutas frescas" />
+            <div class="card-body">
+              <h3 class="card-title">Yogur con frutas</h3>
+              <p class="card-text">
+                Yogur griego acompañado de frutas frescas seleccionadas para potenciar su sabor.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="sobre" aria-labelledby="sobre-titulo">
+      <h2 id="sobre-titulo">Nuestra Historia</h2>
+      <p>
+        Desde hace más de 10 años, elaboramos yogures artesanales con pasión y dedicación, cuidando
+        cada detalle para ofrecerte un producto que represente la esencia de la tradición griega
+        combinada con la calidad local. Nuestra misión es llevar salud y sabor a tu familia.
+      </p>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <p>© 2025 Yogures Artesanales Griegos | Todos los derechos reservados</p>
+    <p>
+      Síguenos:
+      <a
+        href="https://wa.me/573214699271"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="WhatsApp"
+        title="WhatsApp"
+        ><i class="bi bi-whatsapp"></i
+      ></a>
+      <a
+        href="https://www.instagram.com/yoguresgriegos"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+        title="Instagram"
+        ><i class="bi bi-instagram"></i
+      ></a>
+      <a
+        href="https://www.facebook.com/yoguresgriegos"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook"
+        title="Facebook"
+        ><i class="bi bi-facebook"></i
+      ></a>
+      <a
+        href="https://twitter.com/yoguresgriegos"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Twitter X"
+        title="Twitter X"
+        ><i class="bi bi-twitter-x"></i
+      ></a>
+    </p>
+  </footer>
+
+  <a
+    href="https://wa.me/573214699271"
+    class="whatsapp-float"
+    aria-label="Contactar vía WhatsApp"
+    title="Contactar vía WhatsApp"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <i class="bi bi-whatsapp"></i>
+  </a>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"
+  ></script>
+
+  <script>
+    // Slideshow simple con cambio cada 4 segundos
+    let slideIndex = 0;
+    const slides = document.querySelectorAll(".slides");
+
+    function showSlides() {
+      slides.forEach((slide) => slide.classList.remove("active"));
+      slideIndex++;
+      if (slideIndex > slides.length) slideIndex = 1;
+      slides[slideIndex - 1].classList.add("active");
+      setTimeout(showSlides, 4000);
+    }
+    showSlides();
+  </script>
+</body>
+</html>
